@@ -11,6 +11,7 @@ var initGame = function(target){
 
 	$('.word_space').text('');
 	$space.appendTo($('.word_space'));
+	$('#main').hide();
 
 	// 시간초기화.
 }
@@ -23,6 +24,10 @@ var confirmWord = function(target, input){
 	}
 }
 
+var timer = function(){
+	
+}
+
 
 
 $(document).ready(function(){
@@ -32,8 +37,11 @@ $(document).ready(function(){
 
 	initGame(target);
 	
+	$('#introBtn').click(function(){
+		$('#intro,#main').toggle();
+	});
 
-	$('.btn').click(function(){
+	$('#mainBtn').click(function(){
 		var inputWord = $('.textbox').val();
 		if( confirmWord(target,inputWord) ){
 			$('.word').text(inputWord);
@@ -41,6 +49,10 @@ $(document).ready(function(){
 		} else {
 			console.log("틀렸어");
 		}
+
+		$('.textbox').val('');
+		//$('.word_space').toggle();
+
 
 	});
 
