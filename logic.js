@@ -25,7 +25,7 @@ var confirmWord = function(target, input){
 }
 
 var timer = function(){
-	
+
 }
 
 
@@ -43,18 +43,38 @@ $(document).ready(function(){
 
 	$('#mainBtn').click(function(){
 		var inputWord = $('.textbox').val();
+		
 		if( confirmWord(target,inputWord) ){
 			$('.word').text(inputWord);
+			cnt++;
+			$('.cnt').text('Count Word : ' + cnt);
 			target = inputWord;
 		} else {
 			console.log("틀렸어");
 		}
 
 		$('.textbox').val('');
-		//$('.word_space').toggle();
-
 
 	});
+
+
+	$('.textbox').on('keypress',function(event){
+		if(event.keyCode === 13){
+			var inputWord = $('.textbox').val();
+			
+			if( confirmWord(target,inputWord) ){
+				$('.word').text(inputWord);
+				
+				cnt++;
+				$('.cnt').text('Count Word : ' + cnt);
+				target = inputWord;
+			} else {
+				console.log("틀렸어");
+			}
+
+			$('.textbox').val('');
+		}
+	})
 
 
 
