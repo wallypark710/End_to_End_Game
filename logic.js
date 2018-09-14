@@ -14,7 +14,7 @@ var isExist = function(str){
 
 			setTimeout(function(){
 				clearInterval(temp);
-			},2200);
+			},2400);
 
 		return true;
 	}else{
@@ -56,7 +56,7 @@ var confirmWord = function(target, input){
 
 			setTimeout(function(){
 				clearInterval(temp);
-			},2200);
+			},2400);
 
 		return false;
 	}
