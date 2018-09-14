@@ -1,5 +1,27 @@
 
-var startWord = ['자몽', '원두', '커피', '피아노', '여행'];
+var startWord = ['자몽', '원두', '커피', '피아노', '여행', '기러기', '컴퓨터'];
+var inputArray = [];
+var timeKey;
+var setTime = 10;
+var cnt = 0;
+var target;
+
+var isExist = function(str){
+	if( inputArray.indexOf(str) !== -1 ){
+		var temp = setInterval(function(){
+				$('.word').toggle();
+			},500);
+
+			setTimeout(function(){
+				clearInterval(temp);
+			},2000);
+
+		return true;
+	}else{
+		inputArray.push(str);
+		return false;
+	}
+}
 
 var randomIdx = function(arr){
 	return parseInt(Math.random()*(arr.length));
@@ -12,43 +34,63 @@ var initGame = function(target){
 	$('.word_space').text('');
 	$space.appendTo($('.word_space'));
 	$('#main').hide();
-
-	// 시간초기화.
+	
 }
 
 var confirmWord = function(target, input){
-	if( target[target.length-1] === input[0] ){
+	if( target[target.length-1] === input[0] && input.length !== 1 ){
 		return true;
 	} else {
+
+		var temp = setInterval(function(){
+				$('.word').toggle();
+			},500);
+
+			setTimeout(function(){
+				clearInterval(temp);
+			},2000);
+
 		return false;
 	}
 }
 
-var timer = function(){
 
+var timer = function(){
+	
+	if( setTime === 0 ){
+		console.log("time over");
+		clearInterval(timeKey);
+		alert("GAME OVER\n연결한 단어 : " + cnt + " 개");			
+	}
+
+	$('.timer').text(setTime);
+	setTime--;
 }
 
+var changeWord = function(input){
+	cnt++;
+	target = input;
+	setTime = 10;
 
+	$('.word').text(input);
+	$('.cnt').text('Count Word : ' + cnt);
+}
 
 $(document).ready(function(){
 	
-	var target = startWord[randomIdx(startWord)];
-	var cnt = 0;
-
+	target = startWord[randomIdx(startWord)];
 	initGame(target);
 	
 	$('#introBtn').click(function(){
 		$('#intro,#main').toggle();
+		timeKey = setInterval(timer,1000);
 	});
 
 	$('#mainBtn').click(function(){
 		var inputWord = $('.textbox').val();
 		
-		if( confirmWord(target,inputWord) ){
-			$('.word').text(inputWord);
-			cnt++;
-			$('.cnt').text('Count Word : ' + cnt);
-			target = inputWord;
+		if( confirmWord(target,inputWord) && !isExist(inputWord) ){
+			changeWord(inputWord);
 		} else {
 			console.log("틀렸어");
 		}
@@ -62,12 +104,8 @@ $(document).ready(function(){
 		if(event.keyCode === 13){
 			var inputWord = $('.textbox').val();
 			
-			if( confirmWord(target,inputWord) ){
-				$('.word').text(inputWord);
-				
-				cnt++;
-				$('.cnt').text('Count Word : ' + cnt);
-				target = inputWord;
+			if( confirmWord(target,inputWord) && !isExist(inputWord) ){
+				changeWord(inputWord);
 			} else {
 				console.log("틀렸어");
 			}
