@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
 		<script src="jquery.js"></script>
 		<link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
 	</head>
 	<body class="background">
-		<h1 id="title"> 끝.말.잇.기. </h1>
+		<h1 id="title"> END To END </h1>
 
 		<div id="intro">
-			 <button id='introBtn' class='btn btn-success btn_submit'> START </button>
+			 <button id='introBtn' class='btn btn-dark btn_submit'> START </button>
 		</div>
 
 		<div id="main">
 			<div class="word_space"></div>
-			<div class="cnt">Count Word : 0</div>
-			<div class="timer">START</div>
+			<div class="cnt"></div>
+			<div class="timer"></div>
 			<div class="input">
 				<input type="text" class='textbox'>
 				<button id='mainBtn' class="btn btn-dark btn_submit"> submit </button>	
 			</div>
 	
 		</div>
+
+		<div id="end">
+			<div class="gameover"> GAME OVER</div>
+			<div class="status"></div>
+			<button id='endBtn' class="btn btn-dark btn_submit"> ReStart </button>
+		</div>
+
+		<div id="own">Copyright©2018 WALLI All rights reserved.</div>
 				
 
 		<script src="logic.js"></script>

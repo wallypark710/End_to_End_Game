@@ -14,7 +14,7 @@ var isExist = function(str){
 
 			setTimeout(function(){
 				clearInterval(temp);
-			},2000);
+			},2200);
 
 		return true;
 	}else{
@@ -29,11 +29,19 @@ var randomIdx = function(arr){
 
 
 var initGame = function(target){
+	
+	cnt = 0;
+	setTime = 10;
+	inputArray = [];
+
+	$('.word_space').html('');
+	$('.cnt').text('Count Word : ' + cnt);
+	$('.timer').text('START');
 	var $space = $('<div></div>').addClass('word').text(target);
 
 	$('.word_space').text('');
 	$space.appendTo($('.word_space'));
-	$('#main').hide();
+	$('#main, #end').hide();
 	
 }
 
@@ -48,7 +56,7 @@ var confirmWord = function(target, input){
 
 			setTimeout(function(){
 				clearInterval(temp);
-			},2000);
+			},2200);
 
 		return false;
 	}
@@ -60,10 +68,12 @@ var timer = function(){
 	if( setTime === 0 ){
 		console.log("time over");
 		clearInterval(timeKey);
-		alert("GAME OVER\n연결한 단어 : " + cnt + " 개");			
+
+		$('#main, #end').toggle();
+		$('.status').text("연결한 단어 : " + cnt + " 개");			
 	}
 
-	$('.timer').text(setTime);
+	$('.timer').text("남은시간 : " + setTime);
 	setTime--;
 }
 
@@ -112,9 +122,14 @@ $(document).ready(function(){
 
 			$('.textbox').val('');
 		}
+	});
+
+	$('#endBtn').click(function(){
+		target = startWord[randomIdx(startWord)];
+		initGame(target);
+		$('#main').show();
+		timeKey = setInterval(timer,1000);
+
 	})
-
-
-
 
 })
