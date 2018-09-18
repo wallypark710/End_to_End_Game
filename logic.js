@@ -86,6 +86,31 @@ var changeWord = function(input){
 	$('.cnt').text('Count Word : ' + cnt);
 }
 
+var makeRequest = function(target){
+	var httpRequest = new XMLHttpRequest();
+
+	if( !httpRequest ){
+		alert("instance error");
+		return false;
+	}
+
+	httpRequest.onreadystatechange = function(){
+		if( httpRequest.readyState === XMLHttpRequest.DONE ){
+			if( httpRequest.status === 200 ) {
+				alert(httpRequest.responseText);
+			} else {
+				alert("request error");
+			}
+		}
+	}
+	httpRequest.open('POST', 'https://opendict.korean.go.kr/api/search');
+	httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	var data = '';
+	data += 'key=3D4054A465206913B9C5C48C7FCC453D';
+	data += '&q=' + target;
+	httpRequest.send(data);
+}
+
 $(document).ready(function(){
 	
 	target = startWord[randomIdx(startWord)];
@@ -113,6 +138,8 @@ $(document).ready(function(){
 	$('.textbox').on('keypress',function(event){
 		if(event.keyCode === 13){
 			var inputWord = $('.textbox').val();
+
+			makeRequest(inputWord);
 			
 			if( confirmWord(target,inputWord) && !isExist(inputWord) ){
 				changeWord(inputWord);
