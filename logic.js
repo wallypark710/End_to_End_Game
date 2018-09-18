@@ -88,6 +88,7 @@ var changeWord = function(input){
 
 var makeRequest = function(target){
 	var httpRequest = new XMLHttpRequest();
+	var result;
 
 	if( !httpRequest ){
 		alert("instance error");
@@ -97,7 +98,9 @@ var makeRequest = function(target){
 	httpRequest.onreadystatechange = function(){
 		if( httpRequest.readyState === XMLHttpRequest.DONE ){
 			if( httpRequest.status === 200 ) {
-				alert(httpRequest.responseText);
+				result = httpRequest.responseXML;
+				result = result.getElementsByTagName("pos")[0].childNodes[0].nodeValue;
+				alert(result);
 			} else {
 				alert("request error");
 			}
