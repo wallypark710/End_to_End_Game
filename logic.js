@@ -141,10 +141,16 @@ $(document).ready(function(){
 	$('#mainBtn').click(function(){
 		var inputWord = $('.textbox').val();
 		
-		if( confirmWord(target,inputWord) && !isExist(inputWord) ){
-			changeWord(inputWord);
+		if( makeRequest(inputWord) && confirmWord(target,inputWord) && !isExist(inputWord)){
+				changeWord(inputWord);	
 		} else {
-			console.log("틀렸어");
+			var temp = setInterval(function(){
+					$('.word').toggle();
+				},500);
+
+			setTimeout(function(){
+					clearInterval(temp);
+				},2400);
 		}
 
 		$('.textbox').val('');
