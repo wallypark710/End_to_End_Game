@@ -45,8 +45,8 @@ var initGame = function(target){
 	
 }
 
-var confirmWord = function(target, input){
-	if( target[target.length-1] === input[0] && input.length !== 1 ){
+var confirmWord = function(tar, input){
+	if( tar[tar.length-1] === input[0] && input.length !== 1 ){
 		return true;
 	} else {
 
@@ -86,9 +86,10 @@ var changeWord = function(input){
 	$('.cnt').text('Count Word : ' + cnt);
 }
 
-var makeRequest = function(target){
+var makeRequest = function(tar){
 	var httpRequest = new XMLHttpRequest();
 	var result;
+	var trueOrFalse = false;
 
 	if( !httpRequest ){
 		alert("instance error");
@@ -99,19 +100,32 @@ var makeRequest = function(target){
 		if( httpRequest.readyState === XMLHttpRequest.DONE ){
 			if( httpRequest.status === 200 ) {
 				result = httpRequest.responseXML;
-				result = result.getElementsByTagName("pos")[0].childNodes[0].nodeValue;
-				alert(result);
+				result = result.getElementsByTagName("word")[0];
+				if( result !== undefined ){
+					trueOrFalse =  true;
+				} else {
+					trueOrFalse =  false;
+				}
+				
 			} else {
 				alert("request error");
 			}
 		}
 	}
-	httpRequest.open('POST', 'https://opendict.korean.go.kr/api/search');
+	httpRequest.open('POST', 'https://opendict.korean.go.kr/api/search',false);
 	httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	var data = '';
 	data += 'key=3D4054A465206913B9C5C48C7FCC453D';
-	data += '&q=' + target;
+	data += '&q=' + tar;
+	data += '&type1=word';
+	data += '&pos=1';
 	httpRequest.send(data);
+
+	if( trueOrFalse ){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 $(document).ready(function(){
@@ -142,12 +156,16 @@ $(document).ready(function(){
 		if(event.keyCode === 13){
 			var inputWord = $('.textbox').val();
 
-			makeRequest(inputWord);
-			
-			if( confirmWord(target,inputWord) && !isExist(inputWord) ){
-				changeWord(inputWord);
+			if( makeRequest(inputWord) && confirmWord(target,inputWord) && !isExist(inputWord)){
+				changeWord(inputWord);	
 			} else {
-				console.log("틀렸어");
+				var temp = setInterval(function(){
+						$('.word').toggle();
+					},500);
+
+				setTimeout(function(){
+						clearInterval(temp);
+					},2400);
 			}
 
 			$('.textbox').val('');
@@ -158,6 +176,7 @@ $(document).ready(function(){
 		target = startWord[randomIdx(startWord)];
 		initGame(target);
 		$('#main').show();
+		$('.textbox').val('');
 		timeKey = setInterval(timer,1000);
 
 	})
